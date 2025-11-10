@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Patients | HospitalReception</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; }
+        .navbar-nav .nav-link.active { font-weight: bold; color: #0d6efd !important; }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+    <div class="container">
+        <a class="navbar-brand fw-bold" th:href="@{/}">🏥 HospitalApp</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item mx-2"><a class="nav-link" th:href="@{/}">🏠 Home</a></li>
+                <li class="nav-item mx-2"><a class="nav-link" th:href="@{/products}">➕ Add Patient</a></li>
+                <li class="nav-item mx-2"><a class="nav-link active" th:href="@{/getall}">📋 Patient List</a></li>
+                <li class="nav-item mx-2"><a class="nav-link" th:href="@{/find-patient}">🗓 Find-In-Month</a></li>
+                <li class="nav-item mx-2"><a class="nav-link" th:href="@{/contact}">📞 Contact Us</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Patient List -->
+<div class="container my-5">
+    <h2 class="mb-4 text-center">📋 Patient List</h2>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover align-middle">
+            <thead class="table-dark text-center">
+                <tr>
+                    <th>ID</th>
+                    <th>Patient Name</th>
+                    <th>Age</th>
+                    <th>Weight (kg)</th>
+                    <th>Gender</th>
+                    <th>Previous Disease</th> <!-- ✅ NEW COLUMN -->
+                    <th>Symptoms</th>
+                    <th>Created By</th>
+                    <th>Created At</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="patient : ${hospital}" class="text-center">
+                    <td th:text="${patient.id}"></td>
+                    <td th:text="${patient.patientName}"></td>
+                    <td th:text="${patient.age}"></td>
+                    <td th:text="${patient.weight}"></td>
+                    <td th:text="${patient.gender}"></td>
+                    <td th:text="${patient.previousDisease}"></td> <!-- ✅ NEW DATA -->
+                    <td th:text="${patient.symptoms}"></td>
+                    <td th:text="${patient.createdBy}"></td>
+                    <td th:text="${#temporals.format(patient.createdAt, 'dd-MMM-yyyy HH:mm:ss')}"></td>
+                    <td>
+                        <a th:href="@{'/edit-patient/' + ${patient.id}}" class="btn btn-sm btn-warning">✏ Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="text-center mt-4">
+        <a th:href="@{/products}" class="btn btn-primary btn-lg">➕ Add Another Patient</a>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
